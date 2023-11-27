@@ -1,5 +1,5 @@
 class BlogsController < ApplicationController
-  before_action :set_blog, only: [:show, :update]
+  before_action :set_blog, only: [:show, :update, :destroy]
 
   def index
     render json: Blog.all
@@ -19,17 +19,29 @@ class BlogsController < ApplicationController
   end
 
   def update
-    if @blog.update(blog_params)
+    if @blog && @blog.update(blog_params)
         render json: @blog
     else
-        render json: { error: @blog.errors.full_messages.join(". ") }
+        render json: { error: @blog&.errors&.full_messages&.join(". ") }, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    if @blog && @blog.destroy
+      render status: :no_content
+    else
+      render json: { error: @blog&.errors&.full_messages&.join(". ") }, status: :unprocessable_entity
+    end
+  end
+
+  def search
+    render json: Blog.search_blog(params[:query])
   end
 
   private
 
   def set_blog
-    @blog ||= Blog.find_by(params[:id])
+    @blog ||= Blog.find_by(id: params[:id])
   end
 
   def blog_params
