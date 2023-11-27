@@ -35,7 +35,7 @@ class BlogsController < ApplicationController
   end
 
   def search
-    render json: Blog.search_blog(params[:query])
+    render json: Blog.search_by_keyword(params[:query])
   end
 
   private
