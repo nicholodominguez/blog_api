@@ -1,24 +1,85 @@
-# README
+# API Contracts - JSON format
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+GET /blogs - Lists all blogs
 
-Things you may want to cover:
+Expected response:
 
-* Ruby version
+```
+[ 
+  { 
+    "id":1,
+    "title":"First Blog",
+    "subheader":null,
+    "body":"This is the first blog",
+    "created_at":"2023-11-27T06:25:26.736Z",
+    "updated_at":"2023-11-27T06:25:26.736Z"
+    },
+    {
+      "id":2,
+      "title":"Second Blog",
+      "subheader":"A sequel to the first one",
+      "body":"This is the second blog",
+      "created_at":"2023-11-27T06:25:26.755Z",
+      "updated_at":"2023-11-27T06:25:26.755Z"
+    }...]
+```
+GET /blogs/:id - Display blog with :id
 
-* System dependencies
+Expected parameters:
 
-* Configuration
+```
+  params: { :id }
+```
 
-* Database creation
+Expected response:
+```
+{ 
+  "id":1,
+  "title":"First Blog",
+  "subheader":null,
+  "body":"This is the first blog",
+  "created_at":"2023-11-27T06:25:26.736Z",
+  "updated_at":"2023-11-27T06:25:26.736Z"
+}
+```
 
-* Database initialization
+POST /blogs/ - Create a new blog
 
-* How to run the test suite
+Expected parameters:
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+  params: { 
+    title: string (required),
+    body: text (required), 
+    subheader: string,
+  }
+```
 
-* Deployment instructions
+PATCH /blogs/:id - Update an existing blog
 
-* ...
+Expected parameters:
+
+```
+  params: {
+    id: integer (required), 
+    title: string,
+    body: text, 
+    subheader: string,
+  }
+```
+
+GET /blogs/search - Search for blogs containing the specified keyword in title, body, and subheader
+
+Expected parameters:
+
+```
+  params: { query: string (required) }
+```
+
+DELETE /blogs/:id - Delete a specific blog
+
+Expected parameters:
+
+```
+  params: { :id }
+```
